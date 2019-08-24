@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon ."
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,14 @@
   "bugs": {
     "url": "https://github.com/abhilashkumar002/sports_cafe_assignment_backend/issues"
   },
-  "homepage": "https://github.com/abhilashkumar002/sports_cafe_assignment_backend#readme"
+  "homepage": "https://github.com/abhilashkumar002/sports_cafe_assignment_backend#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql2": "^1.6.5"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
 }

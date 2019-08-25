@@ -6,12 +6,14 @@ const db = require("./database");
 
 const app = express();
 app.use(cors());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/all", (req, res, next) => {
-  db.execute("select * from articles")
+  console.log(req.query);
+  const sqlQuery = `select * from articles limit ${req.query.initialCount} , ${req.query.step}`;
+  db.execute(sqlQuery)
     .then(response => {
-      console.log(response[0]);
       res.send(response[0]);
     })
     .catch(err => {
@@ -24,7 +26,6 @@ app.get("/article/:id", (req, res, next) => {
   const params = req.params;
   db.execute("select * from articles where id=" + params.id)
     .then(response => {
-      console.log(response);
       if (response[0].length == 0) {
         res.status(404).send("Article with this id not found");
       }
@@ -37,19 +38,54 @@ app.get("/article/:id", (req, res, next) => {
 });
 
 app.post("/insertOrEdit", (req, res, next) => {
-  console.log(req.query);
-  if (req.query.id) {
-    res.send("edit request");
+  const data = req.body;
+  if (req.body.id) {
+    const updateQuery = `update articles set author = ?, content = ?, image_link = ?, sports_name = ?, title = ? where id = ?`;
+    const values = [
+      data.author,
+      data.content,
+      data.image_link,
+      data.sports_name,
+      data.title,
+      data.id
+    ];
+    db.execute(updateQuery, values)
+      .then(response => {
+        console.log(response);
+        res.status(200).send("edit request complete");
+      })
+      .catch(err => {
+        res.status(400).send("Editing data failed");
+      });
   } else {
-    res.send("insert request");
+    const insertQuery = `insert into articles (author, content, image_link, sports_name, title) values(?,?,?,?,?)`;
+    const values = [
+      data.author,
+      data.content,
+      data.image_link,
+      data.sports_name,
+      data.title
+    ];
+    db.execute(insertQuery, values)
+      .then(response => {
+        console.log(response);
+        res.status(200).send("insert request complete");
+      })
+      .catch(err => {
+        res.status(400).send("inserting data failed");
+      });
   }
 });
 
 app.delete("/article/:id", (req, res, next) => {
   const id = req.params.id;
-  db.execute("delete from articles where id=" + id).then(response => {
+  db.execute("delete from articles where id=" + id)
+  .then(response => {
     console.log(response);
-    res.send("deleted");
+    res.status(200).send("deleted");
+  })
+  .catch(err => {
+    res.status(400).send('Error in deleting article')
   });
 });
 

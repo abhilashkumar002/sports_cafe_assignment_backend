@@ -18,10 +18,10 @@ const createTableQuery = 'create table articles' +
 const insertDataQuery = 'insert into articles (sports_name, image_link, title, content, author) values (?,?,?,?,?)'
 
 dbpool.execute(insertDataQuery,[
-  'cricket2', 
+  'cricket21', 
   'https://media.istockphoto.com/photos/closeup-of-red-cricket-ball-and-bat-sitting-on-grass-picture-id177427917?k=6&m=177427917&s=612x612&w=0&h=-q2U1BYuDKX2qQa7DcwTQ6PhkJifJcuuwo1HlpCjfC8=',
-  'world cup updates iubidvu kjbvk kjdbv',
-  'world cup is here kjqdn dvkjn dv j',
+  'world cup updates eqr iubidvu kjbvk kjdbv',
+  'world cup is here qrw,m qr eqrj   qrjbjlqerqerjgk  q  kjqdn dvkjn dv j',
   'abhilash'
 ]).then(response => {
   console.log(response);
